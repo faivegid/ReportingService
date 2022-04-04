@@ -1,4 +1,5 @@
-﻿using ReportingService.Modela.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using ReportingService.Modela.Domain;
 using ReportingService.Modela.DTOs;
 using System;
 using System.Collections.Generic;
@@ -6,37 +7,19 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReportingService.Data
+
 {
-    public class ActivityStores
+    public class ActivityStores : DbContext
     {
-        private static List<Activity> _activityStores;
-        public static IList<Activity> ActivityContext => _activityStores ??= new List<Activity>();
+        public static string CONNECTIONSTRING => "Data Source=ActivityStores";
 
-        public static async Task AddActivityAsync(ActivityDTO activityDTO)
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<ActivityValue> ActiivityValues { get; set; }
+
+
+        public ActivityStores(DbContextOptions options) : base(options)
         {
-            await Task.Run(() =>
-            {
-                var activity = ActivityContext.FirstOrDefault(a => a.Id == activityDTO.Id);
-
-                if (activity == null)
-                    activity = new Activity(activityDTO.Id, activityDTO.Value);
-                else
-                    activity.AddValue(activityDTO.Value);
-            });
         }
 
-        public static async Task<int> GetTwekveHourTaskValueSum(string id)
-        {
-            return await Task<int>.Run(() =>
-            {
-                var activity = ActivityContext.FirstOrDefault(a => a.Id == id);
-                var date = DateTime.Now.AddHours(-12);
-
-                if (activity == null)
-                    return 0;
-                else
-                    return activity.Values.Where(x => x.InsertedTimeStamp >= date).Sum(x => x.Value);
-            });
-        }
     }
 }

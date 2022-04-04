@@ -6,8 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CleaningService\Contract\" />
-    <Folder Include="CleaningService\IMplementaiton\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="5.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReportingService.Data\ReportingService.Data.csproj" />
   </ItemGroup>
 
 </Project>

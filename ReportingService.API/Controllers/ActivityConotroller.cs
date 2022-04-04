@@ -22,10 +22,11 @@ namespace ReportingService.API.Controllers
         }
 
         [HttpPost("{key}")]
-        public async Task<IActionResult> AddValueAsync(ActivityDTO dTO)
+        public async Task<IActionResult> AddValueAsync(string key, ActivityDTO dTO)
         {
             try
             {
+                dTO.Id = key;
                 await _activityRepository.AddValueToActivityStoresAsync(dTO);
                 return StatusCode(200);
             }
